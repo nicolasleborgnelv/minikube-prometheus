@@ -1,19 +1,5 @@
 kube-prometheus-stack:
     namespaceOverride: "prometheus"
-    grafana:
-      additionalDataSources:
-        - name: "Zipkin"
-          type: "zipkin"
-          uid: "Zipkin"
-          url: "http://zipkin.zipkin.svc.cluster.local:9411"
-          typeLogoUrl:	"public/app/plugins/datasource/zipkin/img/zipkin-logo.svg"
-          access: "proxy"
-          isDefault: false
-          readOnly: false
-          jsonData:
-            timeInterval: "30s"
-            nodeGraph:
-              enabled: true
     prometheus:
       prometheusSpec:
         additionalScrapeConfigs :
@@ -21,7 +7,7 @@ kube-prometheus-stack:
           static_configs:
             - targets: ['prometheus-operated:9090']
         - job_name: 'argocd'
-          # retreive jenkins values.
+          # retreive argocd values.
           metrics_path: /metrics 
           scrape_interval: 5s
           static_configs:
