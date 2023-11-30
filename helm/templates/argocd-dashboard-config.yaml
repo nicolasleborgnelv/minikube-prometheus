@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    grafana_dashboard: "1"
+  name: argocd-dashboard-config
+  namespace: prometheus
+data:
+  argocd.json: |-
+{{ ( .Files.Get "dashboard/argocd.json") | indent 4 }}

@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: prometheus
+  namespace: argocd
+spec:
+  project: default
+  source:
+    path: helm
+    repoURL: https://github.com/nicolasleborgnelv/minikube-prometheus.git
+    targetRevision: main
+    helm:
+      valueFiles:
+      - values.yaml```
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: prometheus
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true

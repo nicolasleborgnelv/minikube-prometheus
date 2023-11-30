@@ -1,0 +1,17 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prometheus
+  namespace: prometheus
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`prometheus.minikube`)
+      kind: Rule
+      services:
+      - name: prometheus-kube-prometheus-prometheus
+        port: 9090
+        namespace: prometheus
