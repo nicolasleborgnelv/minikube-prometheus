@@ -25,6 +25,7 @@ main () {
     # show access path
     echo "http://prometheus.minikube:$(kubectl get --namespace=traefik svc traefik-ingress-service -o=jsonpath='{.spec.ports[?(@.port==80)].nodePort}{"\n"}')"
     echo "http://grafana.minikube:$(kubectl get --namespace=traefik svc traefik-ingress-service -o=jsonpath='{.spec.ports[?(@.port==80)].nodePort}{"\n"}')"
+    kubectl get secret prometheus-grafana -o jsonpath="{.data.admin-password}" -n prometheus | base64 --decode ; echo
 
 }
 main "$@"
